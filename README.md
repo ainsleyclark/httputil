@@ -1,5 +1,5 @@
 <div align="center">
-<img height="250" src="res/logo.svg" alt="Logger Logo" />
+<img height="250" src="res/logo.svg" alt="HTTPUtil Logo" />
 
 [![made-with-Go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](http://golang.org)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ainsleyclark/logger)](https://goreportcard.com/report/github.com/ainsleyclark/logger)
