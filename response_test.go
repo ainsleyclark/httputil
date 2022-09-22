@@ -15,41 +15,47 @@ package httputil
 
 import (
 	"github.com/stretchr/testify/assert"
+	"net/http"
 	"testing"
 )
 
-func TestResponse_Is2xx(t *testing.T) {
-	tt := map[string]struct {
-		input int
-		want  bool
-	}{
-		"200": {
-			200,
-			true,
-		},
-		"201": {
-			201,
-			true,
-		},
-		"300": {
-			300,
-			false,
-		},
-		"299": {
-			200,
-			true,
-		},
-		"199": {
-			199,
-			false,
-		},
+func UtilTestResponseStatus(t *testing.T, status int, fn func(r Response) bool) {
+	t.Helper()
+	for i := status; i < status+99; i++ {
+		r := Response{Status: i}
+		got := fn(r)
+		assert.Equal(t, true, got)
 	}
+	assert.False(t, fn(Response{Status: status - 1}))
+	assert.False(t, fn(Response{Status: status + 100}))
+}
 
-	for name, test := range tt {
-		t.Run(name, func(t *testing.T) {
-			r := Response{Status: test.input}
-			got := r.Is2xx()
-			assert.Equal(t, test.want, got)
-		})
-	}
+func TestResponse_Is1xx(t *testing.T) {
+	UtilTestResponseStatus(t, http.StatusContinue, func(r Response) bool {
+		return r.Is1xx()
+	})
+}
+
+func TestResponse_Is2xx(t *testing.T) {
+	UtilTestResponseStatus(t, http.StatusOK, func(r Response) bool {
+		return r.Is2xx()
+	})
+}
+
+func TestResponse_Is3xx(t *testing.T) {
+	UtilTestResponseStatus(t, http.StatusMultipleChoices, func(r Response) bool {
+		return r.Is3xx()
+	})
+}
+
+func TestResponse_Is4xx(t *testing.T) {
+	UtilTestResponseStatus(t, http.StatusBadRequest, func(r Response) bool {
+		return r.Is4xx()
+	})
+}
+
+func TestResponse_Is5xx(t *testing.T) {
+	UtilTestResponseStatus(t, http.StatusInternalServerError, func(r Response) bool {
+		return r.Is5xx()
+	})
 }

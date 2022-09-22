@@ -27,13 +27,37 @@ type (
 	}
 )
 
-// Is2xx determines if a response status code is flagged as OK.
-func (r *Response) Is2xx() bool {
-	return statusXXX(r.Status, http.StatusOK, 299)
+// Is1xx determines if the response status code is in between
+// 100 and 199.
+func (r *Response) Is1xx() bool {
+	return r.statusXXX(http.StatusContinue)
 }
 
-func statusXXX(status, high, low int) bool {
-	if status >= high && status <= low {
+// Is2xx determines if the response status code is in between
+// 200 and 299.
+func (r *Response) Is2xx() bool {
+	return r.statusXXX(http.StatusOK)
+}
+
+// Is3xx determines if the response status code is in between
+// 300 and 399.
+func (r *Response) Is3xx() bool {
+	return r.statusXXX(http.StatusMultipleChoices)
+}
+
+// Is4xx determines if the response status code is in between
+// 400 and 499.
+func (r *Response) Is4xx() bool {
+	return r.statusXXX(http.StatusBadRequest)
+}
+
+// Is5xx determines if the response status code is above 500.
+func (r *Response) Is5xx() bool {
+	return r.statusXXX(http.StatusInternalServerError)
+}
+
+func (r *Response) statusXXX(high int) bool {
+	if r.Status >= high && r.Status <= high+99 {
 		return true
 	}
 	return false
