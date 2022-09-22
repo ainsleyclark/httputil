@@ -29,8 +29,7 @@ bench: # Runs benchmarks
 
 mock: # Make mocks keeping directory tree
 	rm -rf mocks \
-	&& mockery --name=Encoder --recursive --exported=true --output=./mocks \
-	&& mockery --name=RedisStore --recursive --exported=true --output=./mocks
+	&& mockery --name=cycleTLS --recursive --exported=true --output=./mocks
 .PHONY: mock
 
 doc: # Run go doc

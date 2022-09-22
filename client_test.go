@@ -7,7 +7,7 @@ package httputil
 import (
 	"github.com/Danny-Dasilva/CycleTLS/cycletls"
 	"github.com/ainsleyclark/errors"
-	mocks "github.com/krang-backlink/api/gen/mocks/test/mocks"
+	"github.com/ainsleyclark/httputil/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"net/http"
