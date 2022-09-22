@@ -127,3 +127,7 @@ func (h *httpClient) Do(url, method string) (*Response, error) {
 
 	return response, nil
 }
+
+func (h *httpClient) handleRedirect(r *Response) (bool, error) {
+	return false, nil
+}
